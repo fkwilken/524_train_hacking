@@ -24,14 +24,20 @@ void setup() {
 
   // Setup
   radio.disableCRC();     // Disable CRC Checking
-  radio.setChannel(44);   // Set Channel to 2440 MHZ
-
-  uint8_t address [] = {0xff,0xff,0xff};   // Set RX Address
+  radio.disableDynamicPayloads();
+  radio.setChannel(40);   // Set Channel to 2440 MHZ
   radio.setAddressWidth(3);
-  // radio.setPayloadSize()
+
+  uint8_t address [] = {0x76,0x24,0xDE,0x7F,0x10};   // Set RX Address
   radio.openReadingPipe(0, address);  
+  
+  uint8_t address2 [] = {0,0,0};   // Set RX Address
+  radio.openReadingPipe(1, address2); 
 
   radio.startListening(); // Listen on
+
+  uint8_t address3 [] = {0,0,0};   // Set RX Address
+  radio.openWritingPipe(address3);
 
   Serial.println("Radio Began " + String(radio.isChipConnected()));
   radio.printDetails();
@@ -52,5 +58,14 @@ void loop() {
   }
 
   delay(100);
+
+  uint8_t wbuf[] = {0xDE,0xAD,0xBE,0xEF};
+  radio.write(wbuf, sizeof(wbuf));
+
+  static int i = 0;
+  if (i++ == 50) {
+    i = 0;
+    radio.printDetails();
+  }
 
 }
