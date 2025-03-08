@@ -48,7 +48,7 @@ void setup() {
 void loop() {
   char buffer[33];
 
-  Serial.print(".");
+  /*Serial.print(".");*/
 
   if (radio.available()) {      // is there a payload?
     radio.read(&buffer, 32);  // fetch payload from FIFO
@@ -57,7 +57,7 @@ void loop() {
     Serial.print(F(" - "));
   }
 
-  delay(100);
+  /*delay(100);*/
 
   uint8_t wbuf[] = {0xDE,0xAD,0xBE,0xEF};
   radio.write(wbuf, sizeof(wbuf));
