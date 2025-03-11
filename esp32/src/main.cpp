@@ -25,10 +25,14 @@ void setup() {
   } 
 
   // Setup
+  radio.setAutoAck(false);
   radio.disableCRC();     // Disable CRC Checking
   radio.disableDynamicPayloads();
+  radio.disableAckPayload();
+
   radio.setChannel(40);   // Set Channel to 2440 MHZ
   radio.setAddressWidth(3);
+  radio.setDataRate(RF24_250KBPS);
 
   // uint8_t address [] = {0x76,0x24,0xDE,0x7F,0x10};   // Set RX Address
   // radio.openReadingPipe(0, address);  
@@ -66,10 +70,11 @@ void loop() {
 
   // uint8_t wbuf[] = {0xDE,0xAD,0xBE,0xEF};
   // success_tx = radio.write(wbuf, sizeof(wbuf));
-
+  // radio.stopListening();
   success_tx = radio.write(wbuf2, sizeof(wbuf2));
+  // radio.startListening();
 
-  delay(500);
+  // delay(1);
 
 
 
@@ -78,12 +83,12 @@ void loop() {
   // Serial.print(true);
   // Serial.println();
 
-  static int i = 0;
-  if (i++ == 50) {
-    i = 0;
-    radio.printDetails();
-  }
+  // static int i = 0;
+  // if (i++ == 500) {
+  //   i = 0;
+  //   radio.printDetails();
+  //   Serial.println("Radio Rate " + String(radio.getDataRate()));
+  // }
 
   
-
 }
